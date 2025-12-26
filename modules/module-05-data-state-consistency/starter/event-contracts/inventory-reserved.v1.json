@@ -1,0 +1,17 @@
+{
+  "event_type": "InventoryReserved",
+  "schema_version": 1,
+  "event_id": "d1ff0f6f-4b8c-4d1c-8c84-2cfa8e6b4a98",
+  "occurred_at": "2025-01-01T00:00:05Z",
+  "reservation": {
+    "reservation_id": "res_111",
+    "order_id": "ord_123",
+    "items": [
+      { "sku": "sku_keyboard", "qty": 1 },
+      { "sku": "sku_mouse", "qty": 1 }
+    ],
+    "status": "reserved"
+  }
+}
+
+

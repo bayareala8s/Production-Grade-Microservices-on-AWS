@@ -1,0 +1,17 @@
+{
+  "event_type": "OrderCreated",
+  "schema_version": 1,
+  "event_id": "2b8d2f4e-6c84-4a4a-bb92-2b0e0c7f9fb3",
+  "occurred_at": "2025-01-01T00:00:00Z",
+  "order": {
+    "order_id": "ord_123",
+    "customer_id": "cus_456",
+    "total_usd": 120.5,
+    "items": [
+      { "sku": "sku_keyboard", "qty": 1, "unit_price_usd": 99.5 },
+      { "sku": "sku_mouse", "qty": 1, "unit_price_usd": 21.0 }
+    ]
+  }
+}
+
+
