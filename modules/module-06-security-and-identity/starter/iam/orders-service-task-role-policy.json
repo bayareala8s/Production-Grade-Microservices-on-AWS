@@ -1,0 +1,40 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "DynamoDBOrdersWrite",
+      "Effect": "Allow",
+      "Action": [
+        "dynamodb:PutItem",
+        "dynamodb:UpdateItem",
+        "dynamodb:GetItem",
+        "dynamodb:Query"
+      ],
+      "Resource": [
+        "arn:aws:dynamodb:REGION:ACCOUNT_ID:table/Orders"
+      ]
+    },
+    {
+      "Sid": "PublishEventsToEventBridge",
+      "Effect": "Allow",
+      "Action": [
+        "events:PutEvents"
+      ],
+      "Resource": [
+        "arn:aws:events:REGION:ACCOUNT_ID:event-bus/orders-bus"
+      ]
+    },
+    {
+      "Sid": "ReadOrdersSecret",
+      "Effect": "Allow",
+      "Action": [
+        "secretsmanager:GetSecretValue"
+      ],
+      "Resource": [
+        "arn:aws:secretsmanager:REGION:ACCOUNT_ID:secret:/prod/orders/db_password-*"
+      ]
+    }
+  ]
+}
+
+

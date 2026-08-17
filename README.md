@@ -206,3 +206,9 @@ Flagship offering alongside:
 ## License & Usage
 
 Course materials © BayAreaLa8s. For instructor and cohort use only unless otherwise licensed.
+
+---
+
+## Legacy module pack (archived)
+
+Earlier enterprise-style module drafts remain under `modules/module-01-*` … `modules/module-09-*` and `course/` for reference. The primary 10-week curriculum is under `labs/`, `lectures/`, and `capstone/`.

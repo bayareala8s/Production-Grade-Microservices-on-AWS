@@ -1,0 +1,15 @@
+{
+  "event_type": "PaymentAuthorized",
+  "schema_version": 1,
+  "event_id": "4a55d7d1-4a6a-40db-8d2d-0dce1a7d8b55",
+  "occurred_at": "2025-01-01T00:00:10Z",
+  "payment": {
+    "payment_id": "pay_789",
+    "order_id": "ord_123",
+    "amount_usd": 120.5,
+    "provider": "stripe",
+    "status": "authorized"
+  }
+}
+
+
