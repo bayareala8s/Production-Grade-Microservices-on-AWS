@@ -1,0 +1,50 @@
+openapi: 3.0.3
+info:
+  title: Billing Service
+  version: 1.0.0
+  description: Capstone Option 3 — plans, subscriptions, usage-driven invoices
+paths:
+  /health:
+    get:
+      responses:
+        "200":
+          description: OK
+  /plans:
+    get:
+      summary: List plans
+      responses:
+        "200":
+          description: Plans
+  /subscriptions:
+    post:
+      summary: Subscribe tenant to a plan
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [tenant_id]
+              properties:
+                tenant_id: { type: string }
+                plan_name: { type: string, default: starter }
+      responses:
+        "201":
+          description: Created
+  /tenants/{tenant_id}/invoices:
+    get:
+      summary: List invoices for tenant
+      parameters:
+        - name: tenant_id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: Invoices
+  /events:
+    post:
+      summary: Consume UsageRecorded events
+      responses:
+        "200":
+          description: Processed

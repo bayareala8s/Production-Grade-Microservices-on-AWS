@@ -1,0 +1,41 @@
+# CI — test and build all four Python microservices
+name: CI Services
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        service:
+          - user-service
+          - product-service
+          - order-service
+          - notification-service
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        working-directory: starters/python/${{ matrix.service }}
+        run: |
+          pip install -r requirements.txt
+          pip install pytest httpx
+
+      - name: Run tests
+        working-directory: starters/python/${{ matrix.service }}
+        run: pytest -q
+
+      - name: Build Docker image
+        run: |
+          docker build -t ${{ matrix.service }}:${{ github.sha }} starters/python/${{ matrix.service }}

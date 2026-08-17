@@ -1,0 +1,44 @@
+# Capstone Option 2 — Banking
+services:
+  customer-service:
+    build: ./services/customer-service
+    ports:
+      - "8011:8011"
+    environment:
+      - DATABASE_URL=sqlite:////data/customers.db
+    volumes:
+      - customer-data:/data
+
+  payment-service:
+    build: ./services/payment-service
+    ports:
+      - "8012:8012"
+    environment:
+      - DATABASE_URL=sqlite:////data/payments.db
+      - CUSTOMER_SERVICE_URL=http://customer-service:8011
+      - EVENT_HTTP_ENDPOINT=http://fraud-service:8013/events
+      - FRAUD_HIGH_AMOUNT=10000
+    volumes:
+      - payment-data:/data
+    depends_on:
+      - customer-service
+      - fraud-service
+
+  fraud-service:
+    build: ./services/fraud-service
+    ports:
+      - "8013:8013"
+    environment:
+      - NOTIFY_EVENT_URL=http://notification-service:8014/events
+      - HIGH_RISK_THRESHOLD=0.7
+    depends_on:
+      - notification-service
+
+  notification-service:
+    build: ./services/notification-service
+    ports:
+      - "8014:8014"
+
+volumes:
+  customer-data:
+  payment-data:

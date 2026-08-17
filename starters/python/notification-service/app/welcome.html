@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BayAreaLa8s — Microservices Platform</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,sans-serif;background:linear-gradient(160deg,#0f172a,#1e293b);color:#e2e8f0;min-height:100vh}
+.wrap{max-width:720px;margin:0 auto;padding:2.5rem 1.25rem}
+h1{margin:0 0 .25rem;font-size:1.75rem;color:#38bdf8}
+.sub{margin:0 0 1.5rem;color:#94a3b8;font-size:.95rem}
+.card{background:#1e293b;border:1px solid #334155;border-radius:12px;padding:1.25rem;margin-bottom:1rem}
+.card h2{margin:0 0 .75rem;font-size:1rem;color:#f1f5f9}
+a{color:#7dd3fc;text-decoration:none}a:hover{text-decoration:underline}
+ul{margin:0;padding-left:1.2rem;line-height:1.75}
+code{font-size:.85em;background:#0f172a;padding:.1em .35em;border-radius:4px}
+.footer{margin-top:1.5rem;font-size:.8rem;color:#64748b}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>BayAreaLa8s</h1>
+<p class="sub">Production-Grade Microservices on AWS — course platform</p>
+<div class="card">
+<h2>Explore</h2>
+<ul>
+<li><a href="/products">GET /products</a> — product catalog (JSON)</li>
+<li><a href="/events">GET /events</a> — OrderPlaced event log (JSON)</li>
+</ul>
+</div>
+<div class="card">
+<h2>APIs (via ALB path routing)</h2>
+<ul>
+<li><strong>User</strong> — POST <code>/users</code>, POST <code>/auth/login</code></li>
+<li><strong>Product</strong> — GET/POST <code>/products</code></li>
+<li><strong>Order</strong> — POST <code>/orders</code></li>
+<li><strong>Notification</strong> — POST <code>/events</code></li>
+</ul>
+</div>
+<div class="card">
+<h2>Health &amp; demo</h2>
+<ul>
+<li>Smoke test: open <a href="/products">/products</a> (catalog should load)</li>
+<li>Full flow: <code>PLATFORM_URL=&lt;this host&gt; ./scripts/demo-platform.sh</code></li>
+<li>Local Docker: <code>/health</code> on ports 8001–8004</li>
+</ul>
+</div>
+<p class="footer">ECS Fargate · ALB · User · Product · Order · Notification</p>
+</div>
+</body>
+</html>

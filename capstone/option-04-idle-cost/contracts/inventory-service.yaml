@@ -1,0 +1,43 @@
+openapi: 3.0.3
+info:
+  title: Inventory Service
+  version: 1.0.0
+  description: Capstone Option 4 — discover NAT/ALB/ECS/EIP (mock or read-only AWS)
+paths:
+  /health:
+    get:
+      responses:
+        "200":
+          description: OK
+  /scans:
+    post:
+      summary: Start discovery scan
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                aws_account_id:
+                  type: string
+                  example: "123456789012"
+      responses:
+        "201":
+          description: Scan completed + InventoryScanCompleted event
+  /scans/{scan_id}/resources:
+    get:
+      parameters:
+        - name: scan_id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: Resources
+  /resources:
+    get:
+      summary: Latest scan resources
+      responses:
+        "200":
+          description: Resources

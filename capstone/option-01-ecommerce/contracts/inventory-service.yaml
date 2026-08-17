@@ -1,0 +1,108 @@
+openapi: 3.0.3
+info:
+  title: Inventory Service
+  version: 1.0.0
+  description: Capstone Option 1 — stock ownership (database-per-service)
+paths:
+  /health:
+    get:
+      summary: Health check
+      responses:
+        "200":
+          description: OK
+  /inventory:
+    get:
+      summary: List inventory
+      responses:
+        "200":
+          description: Inventory rows
+  /inventory/{product_id}:
+    get:
+      summary: Get stock for product
+      parameters:
+        - name: product_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Inventory
+        "404":
+          description: Not found
+    put:
+      summary: Upsert available stock
+      parameters:
+        - name: product_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [product_id, available]
+              properties:
+                product_id:
+                  type: string
+                available:
+                  type: integer
+                  minimum: 0
+      responses:
+        "200":
+          description: Updated
+  /inventory/{product_id}/reserve:
+    post:
+      summary: Reserve stock for an order
+      parameters:
+        - name: product_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [quantity]
+              properties:
+                quantity:
+                  type: integer
+                  minimum: 1
+                order_id:
+                  type: string
+      responses:
+        "200":
+          description: Reserved
+        "409":
+          description: Insufficient stock
+  /inventory/{product_id}/release:
+    post:
+      summary: Release previously reserved stock
+      parameters:
+        - name: product_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [quantity]
+              properties:
+                quantity:
+                  type: integer
+                  minimum: 1
+                order_id:
+                  type: string
+      responses:
+        "200":
+          description: Released

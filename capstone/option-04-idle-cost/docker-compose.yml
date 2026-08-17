@@ -1,0 +1,60 @@
+# Capstone Option 4 — AWS Idle Cost Advisor (FinOps)
+services:
+  account-service:
+    build: ./services/account-service
+    ports:
+      - "8031:8031"
+    environment:
+      - DATABASE_URL=sqlite:////data/accounts.db
+      - JWT_SECRET=finops-dev-secret-change-me
+    volumes:
+      - account-data:/data
+
+  notification-service:
+    build: ./services/notification-service
+    ports:
+      - "8035:8035"
+
+  recommendation-service:
+    build: ./services/recommendation-service
+    ports:
+      - "8034:8034"
+    environment:
+      - DATABASE_URL=sqlite:////data/recommendations.db
+      - NOTIFY_EVENT_URL=http://notification-service:8035/events
+    volumes:
+      - recommendation-data:/data
+    depends_on:
+      - notification-service
+
+  analyzer-service:
+    build: ./services/analyzer-service
+    ports:
+      - "8033:8033"
+    environment:
+      - DATABASE_URL=sqlite:////data/analyzer.db
+      - RECOMMENDATION_EVENT_URL=http://recommendation-service:8034/events
+    volumes:
+      - analyzer-data:/data
+    depends_on:
+      - recommendation-service
+
+  inventory-service:
+    build: ./services/inventory-service
+    ports:
+      - "8032:8032"
+    environment:
+      - DATABASE_URL=sqlite:////data/inventory.db
+      - SCAN_MODE=mock
+      - AWS_REGION=us-east-1
+      - ANALYZER_EVENT_URL=http://analyzer-service:8033/events
+    volumes:
+      - inventory-data:/data
+    depends_on:
+      - analyzer-service
+
+volumes:
+  account-data:
+  inventory-data:
+  analyzer-data:
+  recommendation-data:

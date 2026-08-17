@@ -1,0 +1,49 @@
+# Capstone Option 3 — SaaS (multi-tenant)
+services:
+  auth-service:
+    build: ./services/auth-service
+    ports:
+      - "8025:8025"
+    environment:
+      - DATABASE_URL=sqlite:////data/auth.db
+      - JWT_SECRET=saas-dev-secret-change-me
+    volumes:
+      - auth-data:/data
+
+  billing-service:
+    build: ./services/billing-service
+    ports:
+      - "8022:8022"
+    environment:
+      - DATABASE_URL=sqlite:////data/billing.db
+    volumes:
+      - billing-data:/data
+
+  user-mgmt-service:
+    build: ./services/user-mgmt-service
+    ports:
+      - "8023:8023"
+    environment:
+      - DATABASE_URL=sqlite:////data/tenants.db
+      - JWT_SECRET=saas-dev-secret-change-me
+    volumes:
+      - tenant-data:/data
+
+  analytics-service:
+    build: ./services/analytics-service
+    ports:
+      - "8024:8024"
+    environment:
+      - DATABASE_URL=sqlite:////data/analytics.db
+      - BILLING_EVENT_URL=http://billing-service:8022/events
+      - JWT_SECRET=saas-dev-secret-change-me
+    volumes:
+      - analytics-data:/data
+    depends_on:
+      - billing-service
+
+volumes:
+  auth-data:
+  billing-data:
+  tenant-data:
+  analytics-data:
